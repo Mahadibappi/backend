@@ -7,6 +7,16 @@ const app = express();
 
 const PORT = process.env.PORT || 6000;
 
+//middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+
+//route setup
+app.get('/', (req, res) => {
+    res.send('home page')
+})
+
 // connect to database
 mongoose.connect(process.env.MONGO_URI)
 
