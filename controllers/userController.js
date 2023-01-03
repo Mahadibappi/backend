@@ -1,10 +1,18 @@
-const registerUser = (req, res) => {
-    if (!req.body.email) {
+
+const asyncHandler = require('express-async-handler')
+
+const registerUser = asyncHandler(async (req, res) => {
+    const { name, email, password } = req.body;
+
+    //validation
+    if (!name || !email || !password) {
         res.status(400)
-        throw new Error("please add an email")
+        throw new Error("please fill all required fields")
     }
-    res.send("user register success")
-}
+
+
+
+})
 
 module.exports = {
     registerUser,
