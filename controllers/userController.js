@@ -3,7 +3,8 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const { use } = require('../routes/userRouter');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" })
@@ -168,11 +169,69 @@ const loggedIn = asyncHandler(async (req, res) => {
     } return res.json(false)
 })
 
+// update user profile
+const updateUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id)
+    if (user) {
+        const { name, email, photo, phone, bio } = user
+        user.email = email;
+        user.name = req.body.name || name;
+        user.phone = req.body.name || phone;
+        user.photo = req.body.photo || photo;
+        user.bio = req.body.bio || bio;
+
+
+        const updatedUser = await user.save();
+        res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            photo: updatedUser.photo,
+            phone: updatedUser.phone,
+            bio: updatedUser.bio
+        })
+    } else {
+        res.status(401)
+        throw new Error("User Not Found")
+    }
+
+});
+
+// change password
+const changePassword = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        res.status(400)
+        throw new Error("User Not Found")
+    }
+    const { oldPassword, password } = req.body
+
+    //validation
+    if (!oldPassword || !password) {
+        res.status(400)
+        throw new Error("Please add old and new Password")
+    }
+
+    //check if the old password is correct
+    const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password)
+    if (user && passwordIsCorrect) {
+        user.password = password
+        await user.save();
+        res.status(200).send("password changed successfully");
+    } else {
+        res.status(400);
+        throw new Error("old password is incorrect");
+    }
+
+})
+
 
 module.exports = {
     registerUser,
     loginUser,
     logout,
     getUser,
-    loggedIn
+    loggedIn,
+    updateUser,
+    changePassword
 }

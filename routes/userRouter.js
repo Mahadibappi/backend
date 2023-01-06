@@ -4,7 +4,9 @@ const {
     loginUser,
     logout,
     getUser,
-    loggedIn
+    loggedIn,
+    updateUser,
+    changePassword
 } = require('../controllers/userController');
 const protect = require('../middleWare/authMiddleware');
 const router = express.Router();
@@ -15,5 +17,7 @@ router.post('/login', loginUser);
 router.get('/logout', logout);
 router.get('/getUser', protect, getUser);
 router.get('/loggedIn', loggedIn);
+router.patch('/update', protect, updateUser)
+router.patch('/changePassword', protect, changePassword)
 
 module.exports = router
