@@ -135,9 +135,37 @@ const logout = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: "User Logged Out Successfully" })
 });
 
-// get user data to show profile
+// get user data to show profile 
 const getUser = asyncHandler(async (req, res) => {
-    res.send('got the user data successfully')
+    const user = await User.findById(req.user._id)
+    if (user) {
+        const { _id, name, email, phone, photo, bio } = user
+        res.status(201).json({
+            _id,
+            name,
+            email,
+            phone,
+            photo,
+            bio,
+
+        })
+    }
+    else {
+        res.status(401)
+        throw new Error('user not found')
+    }
+})
+
+// user login status check if logged in or not
+const loggedIn = asyncHandler(async (req, res) => {
+    const token = req.cookies.token
+    if (!token) {
+        return res.json(false)
+    }
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    if (verified) {
+        return res.json(true)
+    } return res.json(false)
 })
 
 
@@ -145,5 +173,6 @@ module.exports = {
     registerUser,
     loginUser,
     logout,
-    getUser
+    getUser,
+    loggedIn
 }
