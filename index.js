@@ -6,11 +6,13 @@ const cors = require('cors');
 const app = express();
 const userRoute = require('./routes/userRouter')
 const errorHandler = require('./middleWare/errorHandler')
+const cookieParser = require('cookie-parser')
 
 const PORT = process.env.PORT || 6000;
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(cors())
