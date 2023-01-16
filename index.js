@@ -8,7 +8,8 @@ const userRoute = require('./routes/userRouter')
 const productRoute = require("./routes/productRouter")
 const errorHandler = require('./middleWare/errorHandler')
 const cookieParser = require('cookie-parser')
-const path = require("path")
+const path = require("path");
+
 
 const PORT = process.env.PORT || 6000;
 
@@ -30,6 +31,10 @@ app.use("/api/products", productRoute)
 app.get('/', (req, res) => {
     res.send('home page')
 })
+
+
+
+
 
 //error middle ware 
 app.use(errorHandler)

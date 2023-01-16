@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const { use } = require('../routes/userRouter');
 const crypto = require("crypto")
-const Token = require("../models/tokenModel")
+const Token = require("../models/tokenModel");
+
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" })
