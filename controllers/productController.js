@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const { fileSizeFormatter } = require("../utils/fileUpload");
-const cloudinary = require("../utils/cloudinary");
+const cloudinary = require("../utils/cloudinary").v2;
 
 // crate product
 
@@ -17,7 +17,6 @@ const createProduct = asyncHandler(async (req, res) => {
     // Handle Image Upload 
     let fileData = {};
     if (req.file) {
-
         // save image to cloudinary
         let uploadFile;
         try {
@@ -27,16 +26,16 @@ const createProduct = asyncHandler(async (req, res) => {
             });
         } catch (error) {
             res.status(500);
-            throw new Error("Image could not be uploaded")
+            throw new Error("Image could not be uploaded");
         }
-    }
+        fileData = {
+            fileName: req.file.originalname,
+            filePath: uploadFile.secure_url,
+            fileType: req.file.mimetype,
+            fileSize: fileSizeFormatter(req.file.size, 2),
+        };
 
-    fileData = {
-        fileName: req.file.originalname,
-        filePath: uploadFile.source_url,
-        fileType: req.file.mimetype,
-        fileSize: fileSizeFormatter(req.file.size, 2),
-    };
+    }
 
     // Create Product
     const product = await Product.create({
@@ -50,17 +49,18 @@ const createProduct = asyncHandler(async (req, res) => {
         image: fileData,
     });
     res.status(200).json(product);
-
 });
 
 // Get all Products
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.findById({ user: req.user.id }).sort("-createdAt");
+
+    const products = await Product.find().sort("-createdAt");
     res.status(200).json(products)
 });
 
 // get single product
 const getProduct = asyncHandler(async (req, res) => {
+
     const product = await Product.findById(req.params.id);
     // if product does not exist
     if (!product) {
@@ -69,10 +69,10 @@ const getProduct = asyncHandler(async (req, res) => {
     }
 
     // if product matches
-    if (product.user.toString() !== req.user.id) {
-        res.status(401)
-        throw new Error("User not authorized");
-    }
+    // if (product.user.toString() !== req.user.id) {
+    //     res.status(401)
+    //     throw new Error("User not authorized");
+    // }
     res.status(200).json(product)
 });
 
@@ -84,10 +84,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
         throw new Error("product not found")
     }
     //if matches
-    if (product.user.toString() !== req.user.id) {
-        res.status(401)
-        throw new Error("User not authorized")
-    }
+    // if (product.user.toString() !== req.user.id) {
+    //     res.status(401)
+    //     throw new Error("User not authorized")
+    // }
     await product.remove()
     res.status(200).json({ message: "Product deleted" })
 });
@@ -103,10 +103,10 @@ const updateProduct = asyncHandler(async (req, res) => {
         throw new Error("product not found")
     }
     // if matches to its user
-    if (product.user.toString() !== req.user.id) {
-        res.status(401);
-        throw new Error("User not authorized")
-    };
+    // if (product.user.toString() !== req.user.id) {
+    //     res.status(401);
+    //     throw new Error("User not authorized")
+    // };
 
     // handle image upload
     let fileData = {}
@@ -148,6 +148,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             runValidators: true,
         }
     );
+    res.status(200).json(updatedProduct);
 
 })
 module.exports = {
