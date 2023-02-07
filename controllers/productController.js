@@ -1,12 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const { fileSizeFormatter } = require("../utils/fileUpload");
-const cloudinary = require("../utils/cloudinary").v2;
+const cloudinary = require("cloudinary");
 
 // crate product
 
 const createProduct = asyncHandler(async (req, res) => {
-    const { name, sku, category, quantity, price, description } = req.body;
+    const { name, sku, category, quantity, price, description, } = req.body;
 
     //validation 
     if (!name || !category || !quantity || !price) {
@@ -15,27 +15,27 @@ const createProduct = asyncHandler(async (req, res) => {
     }
 
     // Handle Image Upload 
-    let fileData = {};
-    if (req.file) {
-        // save image to cloudinary
-        let uploadFile;
-        try {
-            uploadFile = await cloudinary.uploader.upload(req.file.path, {
-                folder: "Inventory App",
-                resource_type: "image",
-            });
-        } catch (error) {
-            res.status(500);
-            throw new Error("Image could not be uploaded");
-        }
-        fileData = {
-            fileName: req.file.originalname,
-            filePath: uploadFile.secure_url,
-            fileType: req.file.mimetype,
-            fileSize: fileSizeFormatter(req.file.size, 2),
-        };
+    // let fileData = {};
+    // if (req.file) {
+    //     // save image to cloudinary
+    //     let uploadFile;
+    //     try {
+    //         uploadFile = await cloudinary.uploader.upload(req.file.path, {
+    //             folder: "Inventory App",
+    //             resource_type: "image",
+    //         });
+    //     } catch (error) {
+    //         res.status(500);
+    //         throw new Error("Image could not be uploaded");
+    //     }
+    //     fileData = {
+    //         fileName: req.file.originalname,
+    //         filePath: uploadFile.secure_url,
+    //         fileType: req.file.mimetype,
+    //         fileSize: fileSizeFormatter(req.file.size, 2),
+    //     };
 
-    }
+    // }
 
     // Create Product
     const product = await Product.create({
@@ -46,7 +46,7 @@ const createProduct = asyncHandler(async (req, res) => {
         quantity,
         price,
         description,
-        image: fileData,
+
     });
     res.status(200).json(product);
 });

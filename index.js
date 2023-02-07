@@ -32,9 +32,6 @@ app.use("/api/users", userRoute)
 app.use("/api/products", productRoute)
 
 
-
-
-
 //route setup
 app.get('/', (req, res) => {
     res.send('home page')
