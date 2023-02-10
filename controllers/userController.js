@@ -179,7 +179,7 @@ const updateUser = asyncHandler(async (req, res) => {
         const { name, email, photo, phone, bio } = user
         user.email = email;
         user.name = req.body.name || name;
-        user.phone = req.body.name || phone;
+        user.phone = req.body.phone || phone;
         user.photo = req.body.photo || photo;
         user.bio = req.body.bio || bio;
 

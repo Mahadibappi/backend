@@ -1,7 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
-const { fileSizeFormatter } = require("../utils/fileUpload");
-const cloudinary = require("cloudinary").v2;
 
 // crate product
 
@@ -14,28 +12,6 @@ const createProduct = asyncHandler(async (req, res) => {
         throw new Error("Please fill in all fields");
     }
 
-    // Handle Image Upload 
-    // let fileData = {};
-    // if (req.file) {
-    //     // save image to cloudinary
-    //     let uploadFile;
-    //     try {
-    //         uploadFile = await cloudinary.uploader.upload(req.file.path, {
-    //             folder: "Inventory App",
-    //             resource_type: "image",
-    //         });
-    //     } catch (error) {
-    //         res.status(500);
-    //         throw new Error("Image could not be uploaded");
-    //     }
-    //     fileData = {
-    //         fileName: req.file.originalname,
-    //         filePath: uploadFile.secure_url,
-    //         fileType: req.file.mimetype,
-    //         fileSize: fileSizeFormatter(req.file.size, 2),
-    //     };
-
-    // }
 
     // Create Product
     const product = await Product.create({
@@ -67,11 +43,6 @@ const getProduct = asyncHandler(async (req, res) => {
         throw new Error("product not found");
     }
 
-    // if product matches
-    // if (product.user.toString() !== req.user.id) {
-    //     res.status(401)
-    //     throw new Error("User not authorized");
-    // }
     res.status(200).json(product)
 });
 
@@ -82,11 +53,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error("product not found")
     }
-    //if matches
-    // if (product.user.toString() !== req.user.id) {
-    //     res.status(401)
-    //     throw new Error("User not authorized")
-    // }
+
     await product.remove()
     res.status(200).json({ message: "Product deleted" })
 });
@@ -101,35 +68,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error("product not found")
     }
-    // if matches to its user
-    // if (product.user.toString() !== req.user.id) {
-    //     res.status(401);
-    //     throw new Error("User not authorized")
-    // };
 
-    // handle image upload
-    let fileData = {}
-    if (req.file) {
-        // save image to cloudinary
-        let uploadFile;
-        try {
-            uploadFile = await cloudinary.uploader.upload(req.file.path, {
-                folder: "inventory app",
-                resource_type: "image",
-            })
-        } catch (error) {
-            res.status(500);
-            throw new Error("Image could not be uploaded")
-
-        }
-
-        fileData = {
-            fileName: req.file.originalname,
-            filePath: uploadFile.secure_url,
-            fileType: req.file.mimetype,
-            fileSize: fileSizeFormatter(req.file.size, 2)
-        };
-    }
 
     // Update Product
     const updatedProduct = await Product.findByIdAndUpdate(

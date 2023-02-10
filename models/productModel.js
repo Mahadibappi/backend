@@ -34,10 +34,6 @@ const productSchema = new mongoose.Schema(
             required: [true, "please add a description"],
             trim: true
         },
-        image: {
-            type: Object,
-
-        },
 
     },
     {
