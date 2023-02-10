@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
-const productSchema = mongoose.Schema(
+const productSchema = new mongoose.Schema(
     {
-        user: {
-            type: mongoose.Types.ObjectId,
-            required: true,
-            ref: "User"
-        },
+
         name: {
             type: String,
             required: [true, "Please add a name"],
@@ -40,7 +36,7 @@ const productSchema = mongoose.Schema(
         },
         image: {
             type: Object,
-            default: {}
+
         },
 
     },

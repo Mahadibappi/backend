@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 const { fileSizeFormatter } = require("../utils/fileUpload");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 
 // crate product
 
@@ -39,7 +39,6 @@ const createProduct = asyncHandler(async (req, res) => {
 
     // Create Product
     const product = await Product.create({
-        user: req.user.id,
         name,
         sku,
         category,
