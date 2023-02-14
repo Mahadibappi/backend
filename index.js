@@ -10,12 +10,16 @@ const contactRoute = require("./routes/contactRoute")
 const errorHandler = require('./middleWare/errorHandler')
 const cookieParser = require('cookie-parser')
 const path = require("path");
+const fileUpload = require("express-fileupload")
 
 
 
 const PORT = process.env.PORT || 6000;
 
 //middlewares
+app.use(fileUpload({
+    useTempFiles: true
+}))
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }));

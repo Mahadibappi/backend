@@ -1,29 +1,41 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+const cloudinary = require("cloudinary").v2
+
+cloudinary.config({
+    cloud_name: "dxntluscb",
+    api_key: "835948152186965",
+    api_secret: "MhvYnHKJxmOKTLRFc7PEy3KXrjk"
+
+})
 
 // crate product
-
 const createProduct = asyncHandler(async (req, res) => {
-    const { name, sku, category, quantity, price, description, } = req.body;
+    const { name, sku, category, quantity, price, description } = req.body;
 
-    //validation 
+    // validation
     if (!name || !category || !quantity || !price) {
         res.status(400);
         throw new Error("Please fill in all fields");
     }
 
+    const file = req.files.image
+    cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
+        const product = await Product.create({
+            name,
+            sku,
+            category,
+            quantity,
+            price,
+            description,
+            image: result
 
-    // Create Product
-    const product = await Product.create({
-        name,
-        sku,
-        category,
-        quantity,
-        price,
-        description,
+        });
+        res.status(200).json(product);
+    })
 
-    });
-    res.status(200).json(product);
+
+
 });
 
 // Get all Products
@@ -79,7 +91,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             quantity,
             price,
             description,
-            image: Object.keys(fileData).length === 0 ? product?.image : fileData,
+            image: Object.keys(file).length === 0 ? product?.image : file,
         },
         {
             new: true,

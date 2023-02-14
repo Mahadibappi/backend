@@ -9,7 +9,9 @@ const router = express.Router();
 const protect = require("../middleWare/authMiddleware");
 const { upload } = require("../utils/fileUpload")
 
-router.post("/", upload.single("image"), createProduct);
+
+router.post("/", createProduct);
+
 router.patch("/:id", protect, upload.single("image"), updateProduct)
 router.get("/", protect, getProducts);
 router.get("/:id", protect, getProduct);

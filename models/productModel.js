@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema(
+const productSchema = mongoose.Schema(
     {
-
         name: {
             type: String,
             required: [true, "Please add a name"],
@@ -16,25 +15,28 @@ const productSchema = new mongoose.Schema(
         },
         category: {
             type: String,
-            required: [true, "please add a category"],
-            trim: true
+            required: [true, "Please add a category"],
+            trim: true,
         },
         quantity: {
             type: String,
-            required: [true, "Please add quantity"],
-            trim: true
+            required: [true, "Please add a quantity"],
+            trim: true,
         },
         price: {
             type: String,
-            required: [true, "please add a price"],
-            trim: true
+            required: [true, "Please add a price"],
+            trim: true,
         },
         description: {
             type: String,
-            required: [true, "please add a description"],
-            trim: true
+            required: [true, "Please add a description"],
+            trim: true,
         },
-
+        image: {
+            type: Object,
+            default: {},
+        },
     },
     {
         timestamps: true,
