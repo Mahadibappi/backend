@@ -81,7 +81,6 @@ const updateProduct = asyncHandler(async (req, res) => {
         throw new Error("product not found")
     }
 
-
     // Update Product
     const updatedProduct = await Product.findByIdAndUpdate(
         { _id: id },
@@ -91,7 +90,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             quantity,
             price,
             description,
-            image: Object.keys(file).length === 0 ? product?.image : file,
+            image: product?.image.url,
         },
         {
             new: true,
