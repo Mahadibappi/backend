@@ -90,13 +90,16 @@ const updateProduct = asyncHandler(async (req, res) => {
             quantity,
             price,
             description,
-            image: product?.image.url,
+            image: product?.image?.url,
+
         },
+
         {
             new: true,
             runValidators: true,
         }
     );
+
     res.status(200).json(updatedProduct);
 
 })
