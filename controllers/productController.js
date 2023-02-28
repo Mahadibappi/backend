@@ -90,8 +90,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             quantity,
             price,
             description,
-            image: product?.image?.url,
-
+            image: product?.image,
         },
 
         {
