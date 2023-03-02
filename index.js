@@ -22,14 +22,13 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
