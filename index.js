@@ -11,6 +11,7 @@ const errorHandler = require("./middleWare/errorHandler");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+const router = require("./routes/productRouter");
 
 const PORT = process.env.PORT || 6000;
 
@@ -30,6 +31,17 @@ app.use(
     credentials: true,
   })
 );
+
+router.get("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "PUT, POST, GET, DELETE, PATCH, OPTIONS"
+  );
+});
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
