@@ -10,7 +10,7 @@ const router = express.Router();
 
 const protect = require("../middleWare/authMiddleware");
 
-router.post("/", protect, createProduct);
+router.post("/", createProduct);
 router.patch("/:id", protect, updateProduct);
 router.get("/", protect, getProducts);
 router.get("/:id", protect, getProduct);
