@@ -22,18 +22,15 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(
-  cors((req, res, next) => {
-    res.header(
-      "Access-Control-Allow-Origin",
-      "https://inventory-backend-sigma.vercel.app"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    next();
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://inventory-frontend-umber.vercel.app",
+    ],
+    credentials: true,
   })
 );
 
