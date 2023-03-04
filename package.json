@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "node index.js",
+    "proxy": "http://localhost:3000",
     "backend": "nodemon index.js"
   },
   "keywords": [],
