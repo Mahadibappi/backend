@@ -16,24 +16,26 @@ const router = require("./routes/productRouter");
 const PORT = process.env.PORT || 6000;
 
 //middlewares
+app.options("*", cors());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Origin",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+app.use(express.json());
 app.use(
   fileUpload({
     useTempFiles: true,
   })
 );
-app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // route middle ware
