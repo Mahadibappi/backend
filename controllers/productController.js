@@ -13,10 +13,10 @@ const createProduct = asyncHandler(async (req, res) => {
   const { name, sku, category, quantity, price, description } = req.body;
 
   // validation
-  if (!name || !category || !quantity || !price) {
-    res.status(400);
-    throw new Error("Please fill in all fields");
-  }
+  // if (!name || !category || !quantity || !price) {
+  //   res.status(400);
+  //   throw new Error("Please fill in all fields");
+  // }
 
   const file = req.files.image;
   cloudinary.uploader.upload(file.tempFilePath, async (err, result) => {
