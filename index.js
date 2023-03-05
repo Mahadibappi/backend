@@ -16,10 +16,15 @@ const router = require("./routes/productRouter");
 const PORT = process.env.PORT || 6000;
 
 //middlewares
-app.options("*", cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header(
     "Access-Control-Allow-Origin",
     "Origin, X-Requested-With, Content-Type, Accept"
