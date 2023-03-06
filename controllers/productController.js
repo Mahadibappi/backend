@@ -11,7 +11,6 @@ cloudinary.config({
 // crate product
 const createProduct = asyncHandler(async (req, res) => {
   const { name, sku, category, quantity, price, description } = req.body;
-  console.log(req.body);
 
   // validation
   if (!name || !category || !quantity || !price) {
@@ -55,12 +54,13 @@ const getProduct = asyncHandler(async (req, res) => {
 // delete product
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
+
   if (!product) {
     res.status(404);
     throw new Error("product not found");
   }
-
   await product.remove();
+
   res.status(200).json({ message: "Product deleted" });
 });
 
