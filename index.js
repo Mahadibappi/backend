@@ -9,16 +9,15 @@ const productRoute = require("./routes/productRouter");
 const contactRoute = require("./routes/contactRoute");
 const errorHandler = require("./middleWare/errorHandler");
 const cookieParser = require("cookie-parser");
-const path = require("path");
+
 const fileUpload = require("express-fileupload");
-const router = require("./routes/productRouter");
 
 const PORT = process.env.PORT || 6000;
 
 //middlewares
 app.use(
   cors({
-    origin: "https://inventory-frontend-umber.vercel.app",
+    origin: "http://localhost:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
@@ -33,24 +32,25 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.options("*", (req, res) => {
-  console.log("first");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "*");
+// app.options("*", (req, res) => {
+//   console.log("first");
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   res.setHeader("Access-Control-Allow-Origin", "*");
 
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-  );
-});
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+//   );
+// });
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // route middle ware
+
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/contactus", contactRoute);
