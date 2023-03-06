@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 6000;
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://inventory-frontend-umber.vercel.app",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
