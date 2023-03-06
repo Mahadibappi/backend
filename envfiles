@@ -1,0 +1,9 @@
+MONGO_URI=mongodb+srv://inventory:EMjmXHKf1OEQj2da@cluster0.guw4vbk.mongodb.net/inventory?retryWrites=true&w=majority
+PORT=5000
+NODE_ENV='development'
+JWT_SECRET=mahadi123456
+EMAIL_USER=mahadibappi@outlook.com
+EMAIL_PASS=mahadi123456
+CLOUD_NAME=dxntluscb
+CLOUD_API_KEY=835948152186965
+CLOUD_API_SECRET=MhvYnHKJxmOKTLRFc7PEy3KXrjk 
