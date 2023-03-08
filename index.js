@@ -32,20 +32,20 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.options("*", (req, res) => {
-//   console.log("first");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Allow-Origin", "*");
+app.options("*", (req, res) => {
+  console.log("first");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-//   );
-// });
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+});
 
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -57,7 +57,7 @@ app.use("/api/contactus", contactRoute);
 
 //route setup
 app.get("/", (req, res) => {
-  res.send("home page");
+  res.send("inventory server running");
 });
 
 //error middle ware
