@@ -17,8 +17,7 @@ const PORT = process.env.PORT || 6000;
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: ["http://localhost:3000"],
     credentials: true,
   })
 );

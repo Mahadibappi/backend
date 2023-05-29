@@ -11,7 +11,6 @@ cloudinary.config({
 // crate product
 const createProduct = asyncHandler(async (req, res) => {
   const { name, sku, category, quantity, price, description } = req.body;
-  console.log(req.body);
 
   // validation
   if (!name || !category || !quantity || !price) {
