@@ -17,7 +17,10 @@ const PORT = process.env.PORT || 6000;
 //middlewares
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+      "https://inventory-backend-kzli.onrender.com",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
